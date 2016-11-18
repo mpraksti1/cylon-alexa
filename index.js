@@ -2,29 +2,19 @@ var Cylon = require("cylon");
 
 Cylon.robot({
   connections: {
-    server: { adaptor: 'mqtt', host: 'mqtt://broker.hivemq.com' },
-    raspi: { adaptor: 'raspi' }
+    server: { name: 'pi', adaptor: 'mqtt', host: 'mqtt://broker.hivemq.com' },
+    raspi: { name: 'servo', adaptor: 'raspi' }
   },
 
   devices: {
-    servo: { driver: 'servo', pin: 11 }
-  }
+    servo: { driver: 'servo', pin: 11, limits: { bottom: 20, top: 160 } }
+  },
 
   work: function(my) {
     my.server.subscribe('rules');
 
     my.server.on('message', function (topic, data) {      
-      var angle = 45 ;
-      
-      my.servo.angle(angle);
-      
-      every((1).second(), function() {
-        angle = angle + 45 ;
-        if (angle > 135) {
-          angle = 45
-        }
-        my.servo.angle(angle);
-      });
+      my.servo.angle(45);
     });
   }
 }).start();
