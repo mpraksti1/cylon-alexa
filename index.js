@@ -1,20 +1,18 @@
 var Cylon = require("cylon");
 
+var piblaster = require('pi-blaster.js');
+
 Cylon.robot({
   connections: {
     server: { name: 'pi', adaptor: 'mqtt', host: 'mqtt://broker.hivemq.com' },
-    raspi: { name: 'servo', adaptor: 'raspi' }
-  },
-
-  devices: {
-    servo: { driver: 'servo', pin: 11, limits: { bottom: 20, top: 160 } }
   },
 
   work: function(my) {
     my.server.subscribe('rules');
 
     my.server.on('message', function (topic, data) {      
-      my.servo.angle(45);
+      console.log('hi');
+      piblaster.setPwm(22, 0.1 );
     });
   }
 }).start();
