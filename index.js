@@ -12,7 +12,20 @@ Cylon.robot({
 
     my.server.on('message', function (topic, data) {      
       console.log('hi');
-      piblaster.setPwm(22, 0.1 );
+      var totalStrikes = 10;
+      var up = true;
+
+      while (totalStrikes > 0) {
+        if (up === true) {
+          piblaster.setPwm(22, 0.1 );
+          up = false;
+        } else {
+          piblaster.setPwm(22, 0.2 );
+          up = true;
+        }
+
+        totalStrikes--;
+      }
     });
   }
 }).start();
