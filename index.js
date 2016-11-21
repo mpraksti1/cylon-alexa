@@ -4,14 +4,15 @@ var interval;
 
 Cylon.robot({
   connections: {
-    server: { name: 'pi', adaptor: 'mqtt', host: 'mqtt://broker.hivemq.com' }
+    server: { name: 'pi', adaptor: 'mqtt', host: 'mqtt://test.mosquitto.org' }
   },
 
   work: function(my) {
     my.server.subscribe('rules');
 
     my.server.on('message', function (topic, data) {
-        interval = setInterval(hammerStrike, 1000);
+	console.log('inside');
+        interval = setInterval(hammerStrike, 600);
     });
   }
 }).start();
@@ -25,7 +26,7 @@ function hammerStrike () {
     if(count % 2 == 0 ) {
       position = 0.01;
     } else {
-      position = 0.05;
+      position = 0.09;
     }
 
     piblaster.setPwm(22, position);
