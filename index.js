@@ -26,7 +26,7 @@ function hammerStrike () {
     if(count % 2 == 0 ) {
       position = 0.01;
     } else {
-      position = 0.09;
+     position = 0.09;
     }
 
     piblaster.setPwm(22, position);
