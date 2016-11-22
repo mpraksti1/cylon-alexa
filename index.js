@@ -4,15 +4,20 @@ var interval;
 
 Cylon.robot({
   connections: {
-    server: { name: 'pi', adaptor: 'mqtt', host: 'mqtt://test.mosquitto.org' }
+    server: { name: 'pi', adaptor: 'mqtt', host: 'mqtt://test.mosquitto.org' },
+    raspi: { adaptor: 'raspi' }
+  },
+
+  devices: {
+    led: { driver: 'led', pin: 13 }
   },
 
   work: function(my) {
     my.server.subscribe('rules');
 
     my.server.on('message', function (topic, data) {
-	console.log('inside');
-        interval = setInterval(hammerStrike, 600);
+      every((1).second(), my.led.toggle);
+      interval = setInterval(hammerStrike, 600);
     });
   }
 }).start();
